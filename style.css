@@ -1,0 +1,386 @@
+/* Importamos la tipografía Poppins de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Definimos los estilos generales de la página */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+/* --- Variables Colores ---*/
+:root {
+    --color-bg: #0f172a;
+    --color-surface: #01071a;
+    --color-border: #2B2D3B;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #9CA2B8;
+    --color-tooltip-bg: #FFF;
+    --color-tooltip-text: #000;
+    --shadow-border: rgba(255, 255, 255, 0.1);
+    --user-bg-color: #FAFAFC;
+    --icono-invertido: invert();
+    --sombra: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Sidebar ------------------------------------------------------------ */
+.sidebar {
+    position: fixed;                /* Para que esté fijo sobre todo el contenido */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 15rem;                   /* Ancho */
+    height: 100%;                   /* Altura */
+    padding: 1.4rem 1rem 0 1rem;
+    background-color: var(--color-surface);
+    box-shadow: 0 10px 15px 1px rgba(0, 0, 0, 0.5);
+    transition: width 0.5s ease;    /* Transición para minimizar el sidebar */
+    z-index: 100;                   /* Asegura que flote por encima de todo */
+}
+
+.sidebar.minimize{
+    width: 5.2rem;
+}
+
+/* --- Header ------------------------------------------------------------- */
+.header {
+    width: 100%;
+}
+
+/* --- Menu Button -------------------------------------------------------- */
+.menu-btn {
+    position: absolute;             /* Con abosolute lo posicionamos libremente en el contenedor */
+    top: 3.5%;
+    right: -0.87rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #757575;
+    box-shadow: 2px 2px 5px var(--shadow-border);
+    cursor: pointer;
+    transition: right 0.3s ease;
+}
+
+.menu-btn img {
+    height: 1.5rem;
+}
+
+.sidebar.minimize .menu-btn {
+   right: -2.2rem;
+}
+
+.sidebar.minimize .menu-btn img{
+    transform: rotate(180deg);
+}
+
+/* --- Body --------------------------------------------------------------- */
+body {
+    display: flex;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: var(--color-bg);
+    transition: color 0.5s ease, 
+    background-color 0.3s ease, left 0.5s ease;;
+}
+
+/* --- Brand (Marca) ------------------------------------------------------ */
+.brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding-left: 0.455rem;
+    margin-bottom: 1.8rem;
+    overflow: hidden;
+}
+
+.brand img { 
+    width: 2.6rem;    /* Tamaño del Logo */
+}
+
+.brand span {
+    font-size: 1.4rem;
+    font-weight: 600;       /* Grosor texto */
+    color: var(--color-text-primary);
+}
+
+/* --- Menú Container ----------------------------------------------------- */
+.menu-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Menú --------------------------------------------------------------- */
+.menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;            /* Separación (Interlineado) */
+    white-space: nowrap;    /* Mantiene el texto del menu en una sola linea */
+}
+
+.menu .menu-item {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+}
+
+.menu .menu-link {
+    display: flex;
+    padding: 0.55rem 0;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: 0.3rem;
+}
+
+.menu-item:hover .menu-link, 
+.sub-menu .sub-menu-link:hover,
+.menu-item.active .menu-link{
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+}
+
+.menu-link img {
+    width: 3.2rem;  /* Tamaño iconos menú */
+    height: auto;
+    padding: 0 1rem;
+    filter: var(--icono-invertido);
+}
+
+.menu-link img:last-child {   /* Iconos flechas */
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.minimize .menu-link img:last-child {
+    display: none;
+}
+
+.menu-item.sub-menu-toggle .menu-link img:last-child{
+    transform: rotate(180deg);
+}
+
+.menu-link span {   
+    font-size: 0.85rem;  /* Tamaño letra menú */
+    font-weight: 500;
+}
+
+.sidebar.minimize .menu-item:hover,
+.sidebar.minimize .menu-item.sub-menu-toggle {
+    overflow: visible;
+}
+
+.sidebar.minimize .menu-item:hover span,
+.sidebar.minimize .menu-item.sub-menu-toggle span { /* Letrero submeno sidebar minimizada */
+    position: absolute;
+    left: 4.5rem;
+    padding: 0.5rem;
+    background-color: var(--color-tooltip-bg);
+    border-radius: 0.4rem;
+    color: var(--color-tooltip-text);
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra);
+}
+
+/* --- SubMenú ------------------------------------------------------------ */
+.sub-menu {
+   height: 0;   /* Ocultamos el contenido de los menús */
+   transition: all 0.3s ease;
+   overflow: hidden;
+   left: 0;
+}
+
+.sidebar.minimize .sub-menu {
+    position: absolute;
+    left: 4.5rem;
+    top: 3.1rem;
+    background-color: var(--color-surface);
+    border-radius: 0.2rem;
+    box-shadow: var(--sombra);
+}
+
+.sub-menu .sub-menu-link {
+    display: flex;
+    margin-left: 2.8rem;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: 0.3rem;
+}
+
+.sub-menu::before {     /* Añade línea */
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 0.04rem;
+    margin-left: 1.6rem;
+    background-color: var(--color-border);
+}
+
+.sidebar.minimize .sub-menu::before {
+    width: 0;
+}
+
+.sidebar.minimize .sub-menu a {
+    margin: 0 0.5rem;
+}
+
+/* --- Footer ------------------------------------------------------------- */
+.footer {
+    width: 100%;
+    padding: 1rem 0;
+    box-shadow: 0 -0.02rem 0 0 var(--color-border);
+}
+
+.user {
+    display: flex;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.user-img {
+    display: flex;
+    margin: 0 0.7rem 0 0.35rem;
+}
+
+.user-img img {
+    width: 2.2rem;
+    height: 2.2rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-data {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.user-data .name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.user-data .email {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+}
+
+.exit-btn {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-text-secondary);
+    filter: var(--icono-invertido);     /* Invierte el color del icono */
+    cursor: pointer;
+}
+
+/* --- Sidebar buttons ---------------------------------------------------- */
+
+.sidebar-btn {
+    display: none;
+}
+
+/* --- Main --------------------------------------------------------------- */
+main {
+    padding: 2rem 3rem 3rem 17rem;
+    transition: padding 0.5s ease;
+}
+
+.sidebar.minimize + main {
+    padding-left: 7.96rem;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-height: 683px) {
+    .footer{
+        box-shadow: none;
+    }
+
+    .footer ul {
+        display: none;
+    }
+
+    /* - - - - - - - - Scroll vertical menú - - - - - - - */
+    .menu-container {
+        overflow-y: auto;       
+    }
+
+    .menu-container::-webkit-scrollbar {
+        width: 8px; /* Ancho del scroll vertical */
+    }
+
+    .menu-container::-webkit-scrollbar-track {
+        background: var(--color-bg); /* Fondo del canal */
+        border-radius: 4px;
+    }
+
+    .menu-container::-webkit-scrollbar-thumb {
+        background-color: var(--color-border); /* Color del manejador */
+        border-radius: 4px;
+    }
+
+    .menu-container::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-text-secondary); /* Color al pasar el mouse */
+    }
+
+    /* - - - - - - - - - - - - - - - - - - -- - - - - - - */
+
+    main {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 700px) or (max-height: 683px) {
+    #menu-btn{
+        display: none;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-btn {
+        display: flex;
+        right: 1rem;
+        padding: 1.2rem;
+    }
+
+    .sidebar-btn img:last-child {
+        display: none;
+    }
+
+    body.sidebar-hidden .sidebar {
+        transform: translateX(0);
+    }
+
+    body.sidebar-hidden .sidebar-btn img:last-child {
+        display: flex;
+    }
+
+    body.sidebar-hidden .sidebar-btn img:first-child {
+        display: none;
+    }
+
+    main {
+        padding: 2rem;
+    }
+}
+
