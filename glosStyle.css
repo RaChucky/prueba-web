@@ -1,0 +1,410 @@
+:root {
+    --color-bg: #0f172a;
+    --color-surface: #01071a;
+    --color-border: #2B2D3B;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #9CA2B8;
+    --color-tooltip-bg: #FFF;
+    --color-tooltip-text: #000;
+    --shadow-border: rgba(255, 255, 255, 0.1);
+    --user-bg-color: #FAFAFC;
+    --icono-invertido: invert();
+
+    /* Colores tarjetas */
+    --bg-tarjeta: #1e293b;        /* Fondo de las tarjetas */
+    --color-termino: #818cf8;     /* Morado/Índigo brillante para los títulos */
+    --color-definicion: #94a3b8;  /* Texto de definición gris claro */
+    --borde: #334155;             /* Bordes sutiles */
+    --sombra: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajuste del contenedor general (Cuerpo de la página */
+h1 {
+    color: var(--color-text-primary);
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    margin-bottom: 30px;
+    color: var(--color-text-primary);
+}
+
+/* Título de cada sección alfabética (A, B, C...) */
+.titulo-letra {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-termino);
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--borde);
+    padding-bottom: 8px;
+    display: block;
+    width: 100%;
+}
+
+/* EFECTO MAESTRO: Hace que toda la página haga scroll suave al pulsar los enlaces */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* Evita que el menú flotante tape los títulos al llegar */
+}
+
+/* Contenedor del índice alfabético flotante */
+.indice-alfabetico {
+    position: sticky;
+    top: 10px;                                  /* Distancia desde el borde superior de la ventana */
+    z-index: 99;                               /* Asegura que flote por encima de todas las tarjetas e imágenes */
+    background-color: rgba(30, 41, 59, 0.85); /* Fondo a juego con el modo oscuro con transparencia */
+    backdrop-filter: blur(6px);                 /* Efecto cristal esmerilado muy moderno */
+    padding: 12px 20px;
+    border-radius: 24px;                        /* Un poco menos redondeado para que encaje bien si hace 2 filas */
+    border: 1px solid var(--borde);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+
+    /* Fuerza una sola fila y permite deslizamiento lateral */
+    display: flex;
+    justify-content: center;    /* Centra los botones en la pantalla */
+    flex-wrap: wrap;            /* Permite saltar a la siguiente línea si no hay espacio */
+    gap: 8px;                   /* Espacio uniforme entre burbujas (horizontal y vertical) */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Centra las letras solo en pantallas grandes donde sí quepa todo el abecedario */
+@media (min-width: 1024px) {
+    .indice-alfabetico {
+        justify-content: center; /* Centra el menú cuando hay espacio de sobra */
+    }
+}
+
+/* Estilo de los botones con las letras */
+.enlace-indice {
+    color: var(--color-termino);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.70rem;     /* Tamaño de la letra */
+
+    /* Dimensiones fijas para lograr simetría total */
+    width: 22px;             /* Ancho fijo del botón */
+    height: 22px;            /* Alto fijo idéntico al ancho */
+    border-radius: 50%;      /* El 50% en cajas cuadradas garantiza un círculo perfecto */
+
+    /* Centrado absoluto del texto de la letra en el medio del círculo */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;         /* Evita que el círculo se aplaste bajo ninguna circunstancia */
+
+    background-color: var(--bg-tarjeta);
+    border: 1px solid var(--borde);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+/* Efecto al pasar el cursor sobre las letras del menú */
+.enlace-indice:hover {
+    background-color: var(--color-termino);
+    color: var(--color-bg); /* Cambia el texto a oscuro para contrastar con el lila brillante */
+    transform: translateY(-2px);
+}
+
+/* Aplica las columnas tipo Pinterest solo al grupo de tarjetas de cada letra */
+.bloque-columnas-alfabetico {
+    columns: 6 320px; /* Mantiene tu configuración perfecta de columnas y ancho mínimo */
+    column-gap: 20px;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* =======================================================
+   ESTRUCTURA MASONRY ULTRA-COMPATIBLE (CSS COLUMNS)
+   ======================================================= */
+dl#lista-vocabulario {
+    /*columns: 6 320px;       /* Forzamos un número alto de columnas y un ancho mínimo de 320px */
+    /*column-gap: 20px;       /* Distancia horizontal exacta entre las dos columnas */
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: block;         /* Forzamos a que el contenedor actúe como bloque puro */
+}
+
+/* Tarjetas individuales. (Estado Base - Mantiene siempre opacidad 1 */
+.item-vocabulario {
+    background-color: var(--bg-tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--sombra);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+
+    /* ESTAS LÍNEAS INDICAN A JAVASCRIPT Y A BRAVE CÓMO TRATAR LAS TARJETAS */
+    display: block;         
+    width: 100%;                /* Obliga a la tarjeta a ocupar todo el ancho de su columna */
+    margin-bottom: 20px;        /* Distancia vertical exacta entre las tarjetas del mismo carril */
+    break-inside: avoid-column;
+    page-break-inside: avoid;   /* Evita de forma estricta que una tarjeta se "parta" a la mitad entre columnas */
+    position: relative;         /* Mantiene la referencia para tu icono y tu imagen flotante */
+}
+
+/* Efecto visual al pasar el ratón */
+.item-vocabulario:hover {
+    transform: scale(1.01);
+    border-color: var(--color-termino);
+}
+
+/* =======================================================    
+    EFECTO DE ATENUACIÓN AL PASAR EL CURSOR POR LA CÁMARA
+   ======================================================= */
+.item-vocabulario:has(.icono-camara:hover) dt,
+.item-vocabulario:has(.icono-camara:hover) dd {
+    opacity: 0.20; /* Atenúa los textos de forma independiente */
+    transition: opacity 0.25s ease;
+}
+
+.item-vocabulario:has(.icono-camara:hover) {
+    /* Cambiamos el fondo usando canales alfa (RGBA/Color sutil) para que no afecte a los hijos */
+    background-color: var(--color-bg); /* Color del fondo */
+
+    /* Atenúa el borde reduciendo su opacidad (usando color con transparencia) */
+    border-color: var(--shadow-border); 
+
+    /* Quitamos cualquier efecto de sombra exterior para que la tarjeta parezca "apagarse" */
+    box-shadow: none; 
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Estilo del icono de la cámara */
+.icono-camara {
+    filter: var(--icono-invertido);     /* Invierte el color del icono */
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 1.4rem;
+    cursor: pointer; /* Cambia el cursor a mano para indicar que es interactivo */
+    transition: all 0.2s ease;
+    z-index: 10;     /* Asegura que el icono quede por encima de todo */
+    opacity: 0.5;
+}
+
+/* Efecto visual al pasar el cursor sobre el ICONO */
+.icono-camara:hover {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+/* ESTADO BASE DE LA IMAGEN FLOTANTE. Estado oculto por defecto */
+.imagen-hover {
+    position: absolute;
+    top: 20%;            
+    left: 50%;           
+    width: 240px;           /* Ajusta el tamaño de la imagen */
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--color-termino);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.8); /* Sombra intensa para despegarla del fondo */
+
+    /* Ocultamos la imagen y preparamos el efecto suave */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(10px) scale(0.95);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;  /* Evita que la imagen interfiera si el cursor pasa sobre ella */
+    z-index: 99; /* Se posiciona de forma absoluta muy por encima de los textos atenuados */
+}
+
+/* Al pasar el cursor por la tarjeta, la imagen aparece flotando */
+.icono-camara:hover + .imagen-hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);  /* Efectro de elevación y zoom ligero */
+}
+
+/* Términos y definiciones */
+dt {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-termino);
+    margin-bottom: 8px;
+}
+
+dd {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-definicion);
+    margin-left: 0;     /* Elimina el sangrado por defecto de HTML */
+}
+
+/* Selecciona solo las tarjetas que contienen una imagen dentro */
+.item-vocabulario:has(.imagen-hover) {
+    position: relative;     /* Asegura que el icono se posicione respecto a la tarjeta */
+}
+
+/* RESPONSIVE: Adaptación para pantallas de móvil */
+@media (max-width: 768px) {
+  dl#lista-vocabulario {
+    column-count: 1;     /* En móviles colapsa automáticamente a una sola columna */
+  }
+  
+  /* Aseguramos que también funcione en móviles con soporte nativo */
+  @supports (display: grid-lanes) {
+    dl#lista-vocabulario {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ==================================================================
+   Si el navegador soporta el nuevo estándar Masonry...
+   ================================================================== */
+@supports (display: grid-lanes) {
+    dl#lista-vocabulario {
+        display: grid-lanes; /* Activa el comportamiento de "carriles" independientes */
+        /* Mantiene las 2 columnas pero permitiendo que las tarjetas suban a rellenar huecos */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    }
+}
+
+
+/* ==================================================================
+   ESTILOS DE IMPRESIÓN: Se activan solo al generar el PDF
+   ================================================================== */
+@media print {
+    /* Ocultamos menús, botones, cabeceras e iconos */
+    .indice-alfabetico, button, h2, .sidebar, #sidebar aside, nav, .icono-camara, .imagen-hover {
+        display: none !important;
+    }
+    /* ==================================================================
+       CORRECCIÓN DEFINITIVA: Forzamos TODAS las cajas de la web a ocupar
+       el 100% de la hoja y eliminamos márgenes invisibles
+    ================================================================== */
+    html, body, main, div, dl#lista-vocabulario {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        left: 0 !important;
+        transform: none !important;
+    }
+  
+    /* =============================================================================
+        Configuramos el margen de la hoja e inyectamos el encabezado y pie de pagina
+        ============================================================================*/
+    @page {
+        margin-top: 3cm;
+        margin-left: 2cm;
+        margin-right: 2cm;
+        margin-bottom: 3cm;
+
+        /* Inyecta el encabezado en la parte superior izquierda */
+        @top-center {
+            /* TEXTO DE CABECERA */
+            content: "Vocabulario Temario TCE 2026";
+            
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 9pt;
+            color: #94a3b8; /* Un gris un poco más claro y sutil */
+            font-weight: 500;
+            border-bottom: 1px solid #e2e8f0; /* Línea divisoria inferior sutil */
+            padding-bottom: 5px;
+            width: 100%;
+        }
+
+        /* Inyecta el texto centrado exactamente en la base física de cada folio */
+        @bottom-center {
+        /* ESCRIBE AQUÍ EL TEXTO QUE TÚ QUIERAS */
+            content: "OposRa © RaChucky 2026 ";
+            
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 9pt;
+            color: #64748b; /* Gris elegante */
+            border-top: 1px solid #e2e8f0; /* Línea divisoria superior sutil */
+            padding-top: 5px;
+            width: 100%;
+        }
+
+        /* Inyecta la numeración automática en la esquina inferior derecha */
+        @bottom-right {
+            /* Muestra el formato clásico "Página X de Y" */
+            content: "Página " counter(page) " de " counter(pages);
+            
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 7pt;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0; 
+            padding-top: 5px;
+
+            /* LAS DOS LÍNEAS QUE ARREGLAN EL PROBLEMA EN BRAVE */
+            white-space: nowrap;   /* Prohíbe de forma estricta que el texto salte de renglón */
+            width: 120px;          /* Le da un ancho generoso para que quepa toda la frase de lado a lado */
+            }
+    /* ================================================================== */
+    }
+    /* ================================================================== */
+        
+    /* Letras del abecedario limpias */
+    .titulo-letra {
+        color: black !important;
+        border-bottom: 2px solid #e2e8f0 !important;
+        margin-top: 30px !important;
+        margin-bottom: 15px !important;
+        font-size: 1.8rem !important;
+        text-align: center !important;
+        page-break-after: avoid; /* Evita que la letra se quede sola al final de la hoja */
+    }
+
+    /* FORMATO DICCIONARIO: Forzamos 2 columnas reales y limpias en el PDF */
+    .bloque-columnas-alfabetico {
+        display: block !important;
+        columns: 2 !important;      /* Crea las 2 columnas continuas tipo diccionario */
+        column-gap: 30px;          /* Espacio elegante de separación entre las dos columnas */
+        width: 100% !important;
+    }
+
+    /* ELIMINACIÓN DE TARJETAS: Texto corrido sin cajas */
+    .item-vocabulario {
+        background-color: transparent !important;
+        border: none !important;      /* ¡ELIMINA LOS BORDES DE LAS TARJETAS! */
+        box-shadow: none !important;  /* Quita cualquier sombra residual */
+        padding: 0 !important;        /* Elimina el espacio interno de la tarjeta */
+        margin-bottom: 12px !important; /* Espacio compacto entre palabra y palabra */
+        
+        display: block !important;
+        width: 100% !important;
+        break-inside: avoid;          /* Evita que un término se fracture entre hojas */
+        page-break-inside: avoid;
+    }
+
+    /* Estilo del término (En negrita compacta) */
+    dt {
+        color: #000000 !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        display: inline !important;   /* Hace que el término y la definición se lean seguidos */
+    }
+
+    /* Estilo de la definición (Al lado del término) */
+    dd {
+        color: #334155 !important;
+        font-size: 0.95rem !important;
+        margin-left: 6px !important;  /* Pequeña separación tras los dos puntos */
+        display: inline !important;   /* Se alinea justo al lado del título en la misma línea */
+    }
+
+    /* Truco de formateo: añade un salto de línea después de cada definición */
+    .item-vocabulario::after {
+        content: "\A";
+        white-space: pre;
+    }
+
+
+
+
+}
+
+
