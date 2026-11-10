@@ -1,0 +1,310 @@
+<!-- 1. LA MAQUETACIÓN (HTML) -->
+<div class="cabecera-editorial">
+    <span class="pildora">Especialidad</span>
+    <h1>Técnico en Cuidados Auxiliares de Enfermería (TCE)</h1>
+    <p>Bloque de temas específicos oficiales para la preparación de exámenes.</p>
+</div>
+
+<!-- Contenedor donde tu script pintará las tarjetas -->
+<div class="grid-temas" id="gridTemasTCE"></div>
+
+
+<!-- 2. LOS ESTILOS (CSS) -->
+<style>
+    .grid-temas {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+        width: 100%;
+    }
+    
+    .tarjeta-tema {
+        background-color: var(--bg-tarjeta);
+        border: 1px solid var(--borde);
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .tarjeta-tema:hover {
+        transform: translateY(-2px);
+        border-color: var(--color-termino);
+    }
+
+    .tarjeta-header h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        line-height: 1.4;
+    }
+
+    .tarjeta-body p {
+        font-size: 0.88rem;
+        color: var(--color-text-secondary);
+        line-height: 1.5;
+    }
+
+    .tarjeta-footer {
+        display: flex;
+        gap: 10px;
+        margin-top: auto;
+    }
+
+    .btn-test {
+        flex: 1;
+        text-align: center;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 6px;
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--color-bg-indigo);
+        color: var(--color-termino);
+        transition: all 0.2s ease;
+    }
+
+    .btn-test:hover {
+        background-color: var(--color-termino);
+        color: var(--color-surface);
+    }
+
+    .btn-test.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+</style>
+
+
+<!-- 3. LA LÓGICA (JAVASCRIPT) -->
+<script>
+    (() => {
+        
+        // === LISTADO DE TEMAS ==========================================
+        
+        const listadoTemas = [
+            {
+                titulo: "Tema 11: Sistemas de Información",
+                definicion: "Sistemas de Información para la asistencia clínica. ClicSalud+. Plan de Humanización del SAS. Estrategia para la Seguridad del Paciente.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "../secciones/test/t_rep_11.html" },
+                    { texto: "Test Externos", url: "" },
+                    // { texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 12: Trabajo en Equipo",
+                definicion: "Trabajo en equipo. Comunicación. Motivación. Estres. Actividades de los TCE en Atención Primaria y Especializada. Concepto de cuidados básicos y autocuidados. El hospital y los problemas psicosociales y de adaptación del paciente hospitalizado.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 13: Prevención de Riesgos Laborales.",
+                definicion: "Prevención de riesgos laborales específicos de la categoría. Especial referencia a la manipulación manual de cargas y al riesgo biológico.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 14: Bioética",
+                definicion: "Principios fundamentales de la Bioética. Conflictos éticos en la práctica profesional y formas de abordarlos. Normas legales de ámbito profesional. El secreto profesional: concepto y regulación jurídica.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 15: Infecciones Nosocomiales",
+                definicion: "Infecciones Nosocomiales: definición, cadena epidemiológica, barreras  higié­nicas.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 16: Gestión de Residuos Sanitarios",
+                definicion: "Definición, clasificación, transporte, eliminación y tratamiento. Manipulación de citostáticos.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 17: Higiene Hospitalaria",
+                definicion: "Conceptos generales de higiene hospitalaria.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 18: Muestras Biológicas",
+                definicion: "Concepto de muestra, diferentes tipos de muestras biológicas.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 19: Higiene en el Paciente",
+                definicion: "Necesidades de higiene en el paciente según edad, peso y patología.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 20: Necesidades de Eliminación",
+                definicion: "Atención al personal TCE en las necesidades de eliminación: diuresis y defecación.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+                {
+                titulo: "Tema 21: Necesidades de Alimentación",
+                definicion: "Atención y cuidados del paciente en las necesidades de alimentación. Manipulación y administración de alimentos en el paciente con nutrición artificial (enteral y parenteral).",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    // { texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 22: Sistema musculoesquelético",
+                definicion: "Principios anatomofisiológicos y patologías más frecuentes del sistema musculoesquelético.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 23: Reanimación Cardiopulmanar Básica",
+                definicion: "Soporte vital básico y apoyo al soporte vital avanzado.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 24: Medicamentos",
+                definicion: "Tipos de medicamentos, vías de administración, precauciones previas, durante y tras la administración. Sistemas de control de calidad. Atención del personal TCE al paciente con oxigenoterapia. Tratamientos terapéuticos. Vacunas.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 25: Preparación del Paciente para la Exploración",
+                definicion: "Posiciones anatómicas y preparación de materiales médico-quirúrgicos para exploraciones tanto física como exploraciones instrumentales. Reposición y mantenimiento del material utilizado Actuaciones del personal TCE en el quirófano/bloque quirúrgico.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 26: Salud Mental",
+                definicion: "Decreto 77/2008, de 4 de marzo, de ordenación administrativa y funcional de los servicios de Salud Mental.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 27: Envejecimiento y Ancianidad",
+                definicion: "Conocimientos y actuaciones del personal TCE en los cuidados integrales del envejecimiento y ancianidad. Úlceras por presión. Movilización y cambios posturales.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 28: Embarazo",
+                definicion: "Competencias y conocimientos del personal TCE en la atención del Embarazo, Parto, Puerperio y Recién Nacido en hospitalización. Planificación familiar. Fecundación asistida.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+            {
+                titulo: "Tema 29: Paciente Terminal",
+                definicion: "Atención y cuidados del paciente en situación terminal/cuidados paliativos. Duelo. Cuidados postmortem.",
+                enlaces: [
+                    { texto: "Test de Repaso", url: "" },
+                    { texto: "Test Externos", url: "" },
+                    //{ texto: "", url: "" },
+                ]
+            },
+        ];
+
+        // Función encargada del pintado físico de elementos
+        function renderizarTarjetasTCE(contenedor) {
+            contenedor.innerHTML = listadoTemas.map(tema => {
+                const datosRepaso = (tema.enlaces && tema.enlaces.length > 0) ? tema.enlaces[0] : null;
+                const datosExterno = (tema.enlaces && tema.enlaces.length > 1) ? tema.enlaces[1] : null;
+
+                const claseRepaso = (datosRepaso && datosRepaso.url) ? "" : "disabled";
+                const claseExterno = (datosExterno && datosExterno.url) ? "" : "disabled";
+
+                return `
+                    <div class="tarjeta-tema">
+                        <div class="tarjeta-header">
+                            <h3>${tema.titulo}</h3>
+                        </div>
+                        <div class="tarjeta-body">
+                            <p>${tema.definicion}</p>
+                        </div>
+                        <div class="tarjeta-footer">
+                            <a href="${claseRepaso === "" ? datosRepaso.url : '#'}" class="btn-test btn-repaso ${claseRepaso}">
+                                ${datosRepaso ? datosRepaso.texto : 'Test de Repaso'}
+                            </a>
+                            <a href="${claseExterno === "" ? datosExterno.url : '#'}" class="btn-test btn-externo ${claseExterno}">
+                                ${datosExterno ? datosExterno.texto : 'Test Externos'}
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- SONDA DE CONTROL PARA ASINCRONISMO ---
+        const targetInicial = document.getElementById('gridTemasTCE');
+        if (targetInicial) {
+            renderizarTarjetasTCE(targetInicial);
+        } else {
+            const observador = new MutationObserver((mutaciones, obs) => {
+                const elementoDestino = document.getElementById('gridTemasTCE');
+                if (elementoDestino) {
+                    renderizarTarjetasTCE(elementoDestino);
+                    obs.disconnect(); 
+                }
+            });
+            observador.observe(document.body, { childList: true, subtree: true });
+        }
+    })();
+
+</script>
