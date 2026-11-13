@@ -1,0 +1,412 @@
+:root {
+    --color-bg: #0f172a;
+    --color-surface: #01071a;
+    --color-border: #2B2D3B;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #9CA2B8;
+    --color-tooltip-bg: #FFF;
+    --color-tooltip-text: #000;
+    --shadow-border: rgba(255, 255, 255, 0.1);
+    --user-bg-color: #FAFAFC;
+    --icono-invertido: invert();
+
+    /* Colores tarjetas */
+    --bg-tarjeta: #1e293b;        /* Fondo de las tarjetas */
+    --color-termino: #818cf8;     /* Morado/Índigo brillante para los títulos */
+    --color-definicion: #94a3b8;  /* Texto de definición gris claro */
+    --color-bg-indigo: rgba(129, 140, 248, 0.2);     /* Sutil fondo índigo transparente */
+    --borde: #334155;             /* Bordes sutiles */
+    --sombra: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+
+    /* Colores extra preguntas */
+    --color-pregunta-ok: #10b981;
+    --bg-pregunta-ok: rgba(16, 185, 129, 0.15);
+    --color-pregunta-incorrecta: #ef4444;
+    --bg-pregunta-incorrecta: rgba(239, 68, 68, 0.15);
+    --color-ambar: #f59e0b;
+    --shadow-ambar: rgba(245, 158, 11, 0.15);
+}
+
+/* Ajuste universal de seguridad para que nada rompa las pantallas pequeñas */
+* {
+    box-sizing: border-box;
+}
+
+main {
+  max-width: 100%; 
+  width: 100%;
+  margin: 0;
+  
+  /* Forzamos a que el body centre todo su contenido en pantallas grandes */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Contenedor del menú de exámenes */
+.contenedor-selector-test {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto 32px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+/* ESTILOS DE LAS TARJETA BASE REUTILIZABLES */
+.item-vocabulario {
+    background-color: var(--bg-tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--sombra);
+    display: block;
+    position: relative;
+}
+
+.etiqueta-tema {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-definicion);
+    opacity: 0.8;
+    margin-bottom: 4px;
+}
+
+dt { 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    color: var(--color-termino); 
+    margin-bottom: 12px; 
+    padding-right: 25px; 
+    line-height: 1.5;
+
+    /* Enunciados de preguntas justificados con guiones */
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+dd { 
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    color: var(--color-definicion); 
+    margin-left: 0; 
+}
+
+/* Contenedor principal de la cabecera del Tema */
+.cabecera-tema-principal {
+    max-width: 700px;         /* Ajuste perfecto al ancho de las tarjetas de preguntas */
+    width: 100%;
+    margin: 0 auto 40px auto; /* Centrado y generosa separación con la primera tarjeta */
+    padding: 0 16px;          /* Colchón de seguridad anti-recortes en móviles */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Línea 1: El número del tema (Estilo etiqueta superior premium) */
+.cabecera-tema-principal .categoria-superior {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;          /* Letras espaciadas elegantes */
+    color: var(--color-termino);    /* Color índigo característico */
+    margin-bottom: 12px;
+    padding: 4px 12px;
+    background-color: var(--color-bg-indigo);     
+    border-radius: 20px;            /* Formato píldora redondeada */
+}
+
+/* Línea 2: El enunciado del tema (Grande e imponente) */
+.cabecera-tema-principal h1 {
+    color: var(--color-text-primary);
+    font-size: 2.2rem;       /* Tamaño destacado para el título principal */
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 16px 0;
+}
+
+/* Línea 3: La breve descripción (Limpia, legible y estructurada) */
+.cabecera-tema-principal p {
+    color: var(--color-definicion);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+    
+    /* Justificado editorial con guiones automáticos */
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+/* Contenedor en modo GRID automático (como las tarjetas de vocabulario) */
+.contenedor-selector-test {
+    display: flex;
+    flex-wrap: wrap;       /* Permite que los botones salten de línea si no caben */
+    justify-content: center; /* Centra los botones sobrantes si no llenan la fila */
+    gap: 12px;                /* Separación perfecta entre filas y columnas */
+    max-width: 700px;         /* Ancho idéntico al de tus tarjetas de examen */
+    width: 100%;
+    margin: 0 auto 32px auto;
+    padding: 0 16px;          /* Colchón de seguridad para móviles */
+    box-sizing: border-box;
+}
+
+/* Enlaces estilizados que se estiran para rellenar su celda del grid */
+.boton-selector-modalidad {
+    display: flex;
+    flex: 1 1 200px;  /* Crece (1), se encoge (1) y tiene un tamaño base de 200px */
+    max-width: 100%;  /* Evita desbordamientos en pantallas pequeñas */
+    align-items: center;
+    justify-content: center;  /* Centrado absoluto del texto en el botón */
+    min-height: 2px;         /* Altura constante y cómoda para hacer clic */
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--shadow-border);
+    color: var(--color-definicion);
+    padding: 6px 20px;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 12px;      /* Bordes suavizados que hacen juego con las tarjetas */
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    cursor: pointer;
+    
+}
+
+/* El examen actual en el que se encuentra el alumno */
+.boton-selector-modalidad.activo {
+    background-color: var(--color-bg-indigo);
+    border-color: var(--color-termino);
+    color: var(--color-text-primary);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 12px rgba(129, 140, 248, 0.15);
+}
+
+/* Efecto al pasar el cursor */
+.boton-selector-modalidad:hover:not(.activo) {
+    background-color: var(--color-termino);
+    color: var(--color-texto);
+    font-weight: 500;
+    box-shadow: 0 4px 12px var(--color-bg-indigo);  /* Sombra */
+}
+
+/* Ajuste de optimización para pantallas pequeñas (Móviles) */
+@media (max-width: 600px) {
+    .cabecera-tema-principal h1 {
+        font-size: 1.7rem; /* Reducimos un poco el título en móviles para que no rompa */
+    }
+}
+
+/* ESTILOS EXCLUSIVOS DE LA SECCIÓN DE EXAMEN (COLUMNA ÚNICA RESPONSIVA) */
+.bloque-columna-test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* Centra las tarjetas internamente */
+    gap: 24px;
+    width: 100%;
+    max-width: 700px;       /* Limitamos el contenedor al mismo ancho de las tarjetas */
+    margin: 0 auto;         /* Centrado de seguridad */
+}
+
+.tarjeta-test-unica {
+    max-width: 700px;
+    width: 100%;
+    box-sizing: border-box; 
+    margin: 0 auto !important; 
+    cursor: default !important;
+}
+
+/* Contenedor vertical de las opciones de radio con sus círculos */
+.contenedor-opciones-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.opcion-radio-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--color-definicion);
+}
+
+.opcion-radio-label:hover {
+    background-color: var(--color-bg-indigo);
+    color: var(--color-texto);
+}
+
+.input-radio-test {
+    accent-color: var(--color-termino);
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.texto-opcion {
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    /* Si una respuesta es muy larga, también se justifica elegantemente */
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+/* DISEÑO DE BOTONES PREMIUM (HEREDADOS DE LAS TARJETAS DE TEMAS) */
+.contenedor-botones-tarjeta {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center;
+    flex-wrap: wrap;         /* Salto de línea inteligente si no caben en móviles */
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.boton-tarjeta {
+    flex: 1 1 180px;              /* Evita que se estire ocupando toda la tarjeta */
+    width: auto;
+    min-width: 180px;            /* Ancho mínimo para que luzca simétrico y pro */
+    max-width: 260px;            /* Evita que crezcan demasiado si la pantalla es gigante */
+    background-color: var(--bg-tarjeta); /* Fondo un poco más oscuro elegante */
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 0.85rem;          /* Letra compacta estilizada */
+    font-weight: 300;
+    padding: 10px 24px;          /* Tamaño comedido y equilibrado */
+    border-radius: 8px;
+    border: 1px solid var(--borde);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.05em;      /* Espaciado entre letras */
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.boton-tarjeta:hover:not(:disabled) {
+    background-color: var(--color-termino); /* Se ilumina en color índigo */
+    color: var(--color-surface);            /* Letras oscuras para contraste */
+    transform: translateY(-2px);            /* Efecto flotante hacia arriba */
+    font-weight: 600;
+    box-shadow: 0 4px 12px var(--color-bg-indigo);  /* Sombra */
+}
+
+.boton-tarjeta:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* PANEL FINAL CENTRADO Y CONTENEDORES DE RESPUESTAS */
+.panel-final-test {
+    max-width: 700px;
+    width: 100%;
+    margin: 20px auto 80px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tarjeta-test-unica.tarjeta-no-respondida {
+    border-color: var(--color-ambar) !important; /* Borde ámbar de alerta */
+    box-shadow: 0 0 12px var(--shadow-ambar) !important;
+}
+
+.alerta-blanco {
+    color: var(--color-ambar);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 6px;
+    letter-spacing: 0.05em;
+}
+
+.opcion-radio-label.resultado-correcto {
+    background-color: var(--bg-pregunta-ok) !important;
+    border-color: var(--color-pregunta-ok) !important;
+    color: var(--color-pregunta-ok) !important;
+    font-weight: 600;
+    letter-spacing: 0.02em;   /* Espaciado entre letras */
+    opacity: 1 !important;
+}
+
+.opcion-radio-label.resultado-incorrecto {
+    background-color: var(--bg-pregunta-incorrecta) !important;
+    border-color: var(--color-pregunta-incorrecta);
+    color: var(--color-pregunta-incorrecta);
+    opacity: 1 !important;
+}
+
+.marcador-resultado-global {
+    background-color: var(--bg-tarjeta);
+    border: 1px solid var(--color-termino);
+    border-radius: 12px;
+    margin-top: 44px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--sombra);
+    width: 100%;
+    max-width: 100%;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.marcador-resultado-global h4 {
+    margin: 0 0 12px 0;
+    color: var(--color-termino);
+    font-size: 1.3rem;
+}
+
+.marcador-resultado-global p {
+    margin: 6px 0;
+    text-align: center;
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* RESPONSIVE: Adaptación para pantallas de móvil */
+@media (max-width: 768px) {
+  dl#lista-vocabulario {
+    column-count: 1;     /* En móviles colapsa automáticamente a una sola columna */
+  }
+  
+  /* Aseguramos que también funcione en móviles con soporte nativo */
+  @supports (display: grid-lanes) {
+    dl#lista-vocabulario {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+

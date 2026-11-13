@@ -1,0 +1,262 @@
+:root {
+    --color-bg: #0f172a;
+    --color-surface: #01071a;
+    --color-border: #2B2D3B;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #9CA2B8;
+    --color-tooltip-bg: #FFF;
+    --color-tooltip-text: #000;
+    --shadow-border: rgba(255, 255, 255, 0.1);
+    --user-bg-color: #FAFAFC;
+    --icono-invertido: invert();
+
+    /* Colores tarjetas */
+    --bg-tarjeta: #1e293b;                                  /* Fondo de las tarjetas */
+    --color-termino: #818cf8;                               /* Morado/Índigo brillante para los títulos */
+    --color-definicion: #94a3b8;                            /* Texto de definición gris claro */
+    --color-bg-indigo: rgba(129, 140, 248, 0.2);            /* Sutil fondo índigo transparente */
+    --borde: #334155;                                       /* Bordes sutiles */
+    --sombra: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --bg-pildora-esmeralda: rgba(52, 211, 153, 0.15);       /* Fondo esmeralda translúcido */
+    --border-pildora-esmeralda: rgba(52, 211, 153, 0.35);   /* Borde esmeralda luminoso */
+}
+
+/* Scroll suave y margen superior para anclajes */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;   /* Evita que el menú flotante tape los títulos al llegar */
+}
+
+#lista-temas {
+    display: block !important;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+/* ================================================================= */
+/*             ÍNDICE NUMÉRICO FLOTANTE SUPERIOR                     */
+/* ================================================================= */
+.indice-alfabetico {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10px;                                     /* Distancia desde el borde superior de la ventana */
+    z-index: 99;                                    /* Asegura que flote por encima de todas las tarjetas e imágenes */
+    background-color: rgba(30, 41, 59, 0.85);     /* Fondo a juego con el modo oscuro con transparencia */
+    backdrop-filter: blur(6px);                     /* Efecto cristal esmerilado muy moderno */
+    -webkit-backdrop-filter: blur(6px);
+    padding: 12px 20px;
+    border-radius: 24px;                            /* Un poco menos redondeado para que encaje bien si hace 2 filas */
+    border: 1px solid var(--borde);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+
+    /* Fuerza una sola fila y permite deslizamiento lateral */
+    display: flex;
+    justify-content: center;    /* Centra los botones en la pantalla */
+    flex-wrap: wrap;            /* Permite saltar a la siguiente línea si no hay espacio */
+    gap: 8px;                   /* Espacio uniforme entre burbujas (horizontal y vertical) */
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+}
+
+/* Estilo de los botones con los numeros */
+.enlace-indice {
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.70rem;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+
+    /* Centrado absoluto del texto del numero en el medio del círculo */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;                         /* Evita que el círculo se aplaste bajo ninguna circunstancia */
+    
+    background-color: var(--bg-tarjeta);
+    border: 1px solid var(--borde);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+/* Efecto al pasar el cursor sobre los botones con los numeros */
+.enlace-indice:hover {
+    background-color: var(--color-termino);
+    font-weight: 600;
+    color: var(--color-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-bg-indigo);
+}
+
+/* ================================================================= */
+/*             CUADRÍCULA UNIFORME Y TARJETAS DE TEMA                */
+/* ================================================================= */
+#lista-temas .bloque-columnas-alfabetico {
+    --ancho-tarjeta: 380px;
+    --alto-tarjeta: 500px;
+
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, var(--ancho-tarjeta));     /* <--- Ancho fijo exacto por columna */
+    justify-content: center;                                            /* Centra las tarjetas simétricamente en la pantalla */
+    gap: 24px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta individual vinculada a las variables --ancho-tarjeta y --alto-tarjeta */
+#lista-temas .item-tema {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width: var(--ancho-tarjeta);
+    height: var(--alto-tarjeta);
+    max-width: 100%;
+    overflow: hidden;               /* Evita que ningún contenido se salga de la caja */
+    
+    box-sizing: border-box;
+    position: relative;
+    scroll-margin-top: 90px;        /* Separa la tarjeta de la barra flotante al hacer foco */
+    background-color: var(--bg-tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--sombra);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* Efecto visual al pasar el ratón e iluminación al hacer foco desde el menú */
+.item-tema:hover,
+.item-tema:target {
+    transform: scale(1.01);
+    border-color: var(--color-termino) !important;
+}
+
+/* ================================================================= */
+/*             PÍLDORA Y CABECERA CON IMAGEN                         */
+/* ================================================================= */
+.etiqueta-tema {
+    display: inline-block;      /* Ajusta el ancho de la píldora al texto exacto */
+    width: fit-content;         /* Evita que se estire a lo ancho dentro de la tarjeta */
+    background-color: var(--bg-pildora-esmeralda);
+    color: var(--color-text-primary);
+    border: 1px solid var(--border-pildora-esmeralda);
+    font-size: 0.72rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;          /* Aire interior para formar la cápsula */
+    border-radius: 9999px;      /* Bordes completamente redondeados (efecto píldora) */
+    margin-bottom: 12px;        /* Separación limpia respecto al título del tema */
+}
+
+.tarjeta-media {
+    position: relative;         /* Sirve de ancla para posicionar la píldora encima */
+    flex-shrink: 0;             /* Evita que la imagen se aplaste si hay mucho texto */      
+    border-radius: 8px;         
+    overflow: hidden;           /* Recorta las esquinas de la foto para que sigan el borde redondeado */
+    border: 1px solid var(--borde);
+    background-color: var(--color-surface);
+    margin: -12px -12px 20px -12px;
+    width: calc(100% + 24px);
+}
+
+.tarjeta-imagen {
+    display: block;
+    width: 100%;                 /* Se adapta al ancho disponible */
+    height: auto;                /* Respeta la altura natural que dé la imagen */
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Posición de la píldora flotando encima de la imagen */
+.etiqueta-sobre-imagen {
+    position: absolute;
+    top: 14px;                  /* Margen superior dentro de la foto */
+    left: 12px;                 /* Margen izquierdo dentro de la foto */
+    margin-bottom: 0;           /* Anula el margen inferior de la píldora normal */
+    z-index: 2;
+
+    /* Refuerzo visual para que se lea perfecto sobre cualquier foto (clara u oscura) */
+    background-color: rgba(6, 78, 59, 0.82);      /* Verde esmeralda oscuro semitransparente */
+    backdrop-filter: blur(6px);                     /* Efecto cristal esmerilado */
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ================================================================= */
+/*             TÍTULOS, DESCRIPCIÓN Y BOTONES INFERIORES             */
+/* ================================================================= */
+dt {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-termino);
+    margin-bottom: 8px;
+    padding-right: 10px;
+}
+
+/* Términos y definiciones */
+dd {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-definicion);
+    margin-left: 0;
+    margin-bottom: 14px;
+
+    /* Recorta el texto con "..." si supera las 6 líneas para no pisar los botones */
+    display: -webkit-box;
+    -webkit-line-clamp: 6;          /* Número máximo de líneas visibles */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* =================================================================*/
+/*           Contenedor de botones al final de la tarjeta           */
+/* =================================================================*/
+#lista-temas .contenedor-botones-tarjeta {
+    display: flex;
+    flex-direction: row;                    /* Botones uno al lado del otro */
+    flex-wrap: wrap;                        /* Permite bajar de línea si no caben en el ancho */
+    gap: 10px;                              /* Mantiene la separación vertical entre botones */
+    margin-top: auto !important;            /* Separación con la descripción */
+    padding-top: 14px;
+    border-top: 1px dashed var(--borde);    /* Línea divisoria sutil */
+    box-sizing: border-box;
+}
+
+/* Estilo individual de los botones */
+.boton-tarjeta {
+    flex: 1 1 120px;                        /* Crece proporcionalmente, pero manteniendo un mínimo de 120px */
+    background-color: var(--bg-tarjeta);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 250;
+    letter-spacing: 0.05em;                 /* Espaciado entre letras */
+    padding: 3px 12px;                      /* Padding vertical y horizontal */
+    border-radius: 8px;
+    border: 1px solid var(--borde);
+    transition: all 0.2s ease;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Protecciones anti-desborde en una sola línea */
+    white-space: nowrap;                    /* Evita que el texto interno se rompa en dos líneas */
+    overflow: hidden;                       /* Recorta el texto si fuera absurdamente largo */
+    text-overflow: ellipsis;                /* Añade "..." si el texto no cabe en situaciones críticas */
+}
+
+.boton-tarjeta:hover {
+    background-color: var(--color-termino);
+    color: var(--color-surface);
+    font-weight: 600;
+    border-color: var(--color-termino);
+    transform: translateY(-2px);            /* Efecto de elevación suave */
+    box-shadow: 0 4px 12px var(--color-bg-indigo);
+}
